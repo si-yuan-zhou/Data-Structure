@@ -1,1 +1,1 @@
-Basic data structure in c++
+The basic data structure written with c++
