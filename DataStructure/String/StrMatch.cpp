@@ -4,14 +4,14 @@ using namespace std;
 #include<string.h>
 #include "StringMatching.h"
 int main(){
-	char s[]="abcdef";
+	char s[]="abcdaaas";
 	StringMatching str(s);
-	char T[]="def";
-	int *next=new int[3];
+	char T[]="abacab";
+	int * next=new int[3];
 	int pos=0;//retrieval position
 	int choice,index;
 	do{
-		cout<<"1--Create Main String and Substring\n"
+		cout<<"\n1--Create Main String and Substring\n"
 			<<"2--BF Matching\n"
 			<<"3--Show Next\n"
 			<<"4--KMP Matching\n"
@@ -47,11 +47,12 @@ int main(){
 			case 5:
 				cout<<"Main string is:";
 				str.OutputStr();
-				cout<<"Substring is: ";
+				cout<<"Substring is:";
 				cout<<T<<endl;
 				break;
 			case 6:
 				cout<<"Bye-bye";
+				exit(0);
 				break;
 			default:
 				break;
