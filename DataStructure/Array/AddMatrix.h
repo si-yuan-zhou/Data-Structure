@@ -3,32 +3,32 @@ typedef struct MNode {
 	int e;//非零元素
 	MNode *next;//指向同行下一个节点
 }MNode,*MLink;
-typedef struct 
-{
+typedef struct {
 	int mu,nu,tu;//行数，列数，非零元素个数
-	MLink *rops;//存放各行链表的头指针
+	MLink *rops;//存放各行链表的头指针,指针的指针
 }LMatrix;
+
 int cmp(int a,int b) {//列号比较
 	if(a<b) return -1;
 	else if(a==b) return 0;
 	else return 1;
 }
-void NodeCopy(MNode *s,MNode *x) {//节点复制
+void NodeCopy(MNode* &s,MNode *x) {//节点复制
 	s->e = x->e;
 	s->i = x->i;
 	s->j = x->j;
 }
-void AddNode(MNode *lp,MNode *lq,MNode *s) {
+void AddNode(MNode *&lp,MNode *&lq,MNode *s) {
 	MNode *p;
-	p=new MNode;
+	p = new MNode;
 	NodeCopy(p,s);
-	p->next=NULL;
-	if(lp==NULL) {
-		lp=p;
-		lq=p;
+	p->next = NULL;
+	if(lp == NULL) {
+		lp = p;
+		lq = p;
 	} else {
-		lq->next=p;
-		lq=p;
+		lq->next = p;
+		lq = p;
 	}
 }
 LMatrix MAdd(LMatrix ma,LMatrix mb) {
@@ -37,41 +37,41 @@ LMatrix MAdd(LMatrix ma,LMatrix mb) {
 	MNode *s;
 	int i,sum;
 	int m,n;//行数，列数
-	int flag=1;
-	m=ma.mu;
-	n=ma.nu;
-	mc.mu=m;
-	mc.nu=n;
-	mc.tu=0;
-	mc.rops=NULL;
-	if(mc.rops)delete[] mc.rops;
-	mc.rops=new MLink[m];
-	for (i = 0; i < m; ++i)
-	{
-		mc.rops[i]=NULL;//c行指针向量初始化
+	int flag = 1;
+
+	m = ma.mu;
+	n = ma.nu;
+	mc.mu = m;
+	mc.nu = n;
+	mc.tu = 0;
+	mc.rops = NULL;
+	if(mc.rops) delete[] mc.rops;
+	mc.rops = new MLink[m];//generate m points
+
+	for (i = 0; i < m; ++i) {
+		mc.rops[i] = NULL;//c行指针向量初始化
 	}
-	for (i = 0; i < m; ++i)
-	{
-		pa=ma.rops[i];
-		pb=mb.rops[i];
-		pc=mc.rops[i];
+	for (i = 0; i < m; ++i) {
+		pa = ma.rops[i];
+		pb = mb.rops[i];
+		pc = mc.rops[i];
 		while(pa && pb){//被加矩阵，加矩阵行链不空
-			flag=1;
+			flag = 1;
 			switch(cmp(pa->j,pb->j)){//列数比较
 				case -1:
-					s=new MNode;
+					s = new MNode;
 					NodeCopy(s,pa);
-					s->next=NULL;
-					pa=pa->next;
+					s->next = NULL;
+					pa = pa->next;
 					break;
 				case 0:
-					sum = pa->e+pb->e;
-					if(sum==0) flag=0;
+					sum = pa->e + pb->e;
+					if(sum == 0) flag = 0;
 					else{
-						s=new MNode;
+						s = new MNode;
 						NodeCopy(s,pa);
-						s->e=sum;
-						s->next=NULL;
+						s->e = sum;
+						s->next = NULL;
 					}
 					pa = pa->next;
 					pb = pb->next;//pa pb后移
@@ -90,14 +90,18 @@ LMatrix MAdd(LMatrix ma,LMatrix mb) {
 		}//end while
 		if(pa){
 			while(pa){
+				s = new MNode;
 				NodeCopy(s,pa);
+				s->next = NULL;
 				pa=pa->next;
 				AddNode(mc.rops[i],pc,s);
 			}
 		}
 		if(pb){
 			while(pb){
+				s = new MNode;
 				NodeCopy(s,pb);
+				s->next = NULL;
 				pb=pb->next;
 				AddNode(mc.rops[i],pc,s);
 			}//while
@@ -110,49 +114,59 @@ void MDisp(LMatrix a){
 	int i,j,c=0;
 	for (i = 0; i < a.mu; ++i)
 	{
-		p=a.rops[i];
+		//遍历每行的链表
+		p = a.rops[i];
 		for (j = 0; j < a.nu; ++j)
 		{
-			if(p==NULL)
+			if(p == NULL)
 				cout<<'\t'<<c;
-			else if(j<p->j)
+			else if(j < p->j)
 				cout<<'\t'<<c;
-			else{
+			else {
 				cout<<'\t'<<p->e;
-				p=p->next;
+				p = p->next;
 			}
 		}
-		cout<<endl;
+		cout << endl;
 	}
 }
 LMatrix MCreate(int d[][3],int m,int n,int k) {
-	LMatrix M={m,n,k,NULL};
+	LMatrix M = {m,n,k,NULL};
 	int i,r1,r2;
 	MNode *s,*p;//工作指针
+
 	if(M.rops) delete[] M.rops;
-	M.rops=new MLink[m];
+	M.rops = new MLink[m];
 	for (i = 0; i < m; ++i)
 	{
 		M.rops[i]=NULL;
 	}
-	r1=m;
-	p=M.rops[r1];
+
+	r1 = m;
+	p = M.rops[r1];
 	for (i = 0; i < k; ++i)//扫描非零元 数组
 	{
-		s=new MNode;
+		s = new MNode;
 		s->i = d[i][0];
 		s->j = d[i][1];
 		s->e = d[i][2];
+
+		/*
+			开始工作指针指向任意一如第m行，然后创建一个节点存储非零数据，并记录该元素的行号
+			判断该元素行号与p指定的行是否相同，若相同，则表示该元素在当前行，直接添加到链表尾
+			否则指向新的行（元素对应的行）
+			注：该方法有不足，只能一行接一行的存储
+		*/
 		r2 = s->i;//非零元 所在行
-		if(r2!=r1){//创建链表第1个节点
-			M.rops[r2]=s;
-			s->next=NULL;
-			p=s;
-			r1=r2;
+		if(r2 != r1){//创建链表第1个节点
+			M.rops[r2] = s;
+			s->next = NULL;
+			p = s;
+			r1 = r2;
 		} else {//创建链表非首元节点
-			s->next=p->next;
-			p->next=s;
-			p=s;
+			s->next = p->next;
+			p->next = s;
+			p = s;
 		}
 	}
 		return M;
