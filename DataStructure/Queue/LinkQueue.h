@@ -1,3 +1,6 @@
+#ifndef __LinkQueue_H__
+#define __LinkQueue_H__
+
  //链队
 template <typename T>
 struct Node{
@@ -20,6 +23,8 @@ public:
 	void ClearQueue();
 	void QueueTranverse();//遍历 
 };
+#endif
+
 template <typename T>
 LinkQueue<T>::LinkQueue(){
 	front=new Node<T>;

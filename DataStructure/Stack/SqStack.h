@@ -1,3 +1,6 @@
+#ifndef __SqStack_H__
+#define __SqStack_H__
+
 //Sequence Stack
 template <class T>
 class SqStack
@@ -17,6 +20,8 @@ public:
 	void StcakTop();//return top pointer||where is top
 	void StackTranverse();//display elements in Stack
 };
+#endif
+
 template <class T>
 SqStack<T>::SqStack(int m) {
 	base = new T[m];//base remains the first address of array

@@ -1,3 +1,6 @@
+#ifndef __DCLinkList_H__
+#define __DCLinkList_H__
+
 //创建双循环链表
 template<class T>
 struct Node{
@@ -23,6 +26,7 @@ public:
 	int Length();//测标的长度
 	void ListDisplay();//输出表中的元素	
 };
+#endif
 template<class T>
 DCLinkList<T>::DCLinkList(){
 	Head=new Node<T>;

@@ -1,3 +1,6 @@
+#ifndef __LinkList_H__
+#define __LinkList_H__
+
 // 单链表，左后一个节点指向NUll
 //HEAD->NODE1->NODE2->……->NODE$->NULL
 template<class T>
@@ -23,6 +26,8 @@ public:
 	int Length();//测标的长度
 	void ListDisplay();//输出表中的元素
 };
+#endif
+
 template<class T>
 LinkList<T>::LinkList(){
 	Head=new Node<T>;//头指针为引导指针，不计算在链表数中

@@ -1,3 +1,6 @@
+#ifndef __Sqlist_H__
+#define __Sqlist_H__
+
 //顺序表
 template<class T>
 class Sqlist{
@@ -19,6 +22,7 @@ public:
 	int Length();//計算表長度
 	void ListDisp();//输出表的内容
 };
+#endif
 template<class T>
 Sqlist<T>::Sqlist(int m){
 	elem=new T[m];//创建容量为m的空表

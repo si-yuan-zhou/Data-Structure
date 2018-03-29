@@ -1,4 +1,7 @@
- //循环队列
+#ifndef __CirQueue_H__
+#define __CirQueue_H__
+ 
+//循环队列
 template <class T>
 class CirQueue{
 private:
@@ -19,6 +22,8 @@ public:
 	void Pointer();//返回队头，队尾位置
 	void QueueTranverse();//遍历队，输出队的元素
 };
+#endif
+
 template <class T>
 CirQueue<T>::CirQueue(int m){
 	base=new T[m];

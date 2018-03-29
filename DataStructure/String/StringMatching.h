@@ -1,5 +1,7 @@
-class StringMatching
-{
+#ifndef __StringMatch_H__
+#define __StringMatch_H__
+
+class StringMatching {
 private:
 	char *str;//存储串
 	int len;//串长
@@ -13,6 +15,8 @@ public:
 	void GetNext(char T[],int next[]);//求NEXT
 	int IndexKMP(char T[],int next[],int pose);//KMP匹配	
 };
+#endif
+
 StringMatching::StringMatching(char s[]){
 	str=s;
 	len=strlen(s);

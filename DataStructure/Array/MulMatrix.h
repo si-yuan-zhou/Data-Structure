@@ -1,3 +1,6 @@
+#ifndef __MulMatrix_H__
+#define __MulMatrix_H__
+
 typedef struct {
 	int i,j;
 	int e;
@@ -109,3 +112,5 @@ SMatrix MMul(SMatrix ma,SMatrix mb) {
 	mc.tu = r;
 	return mc;
 }
+
+#endif

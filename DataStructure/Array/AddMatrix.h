@@ -1,3 +1,6 @@
+#ifndef __AddMatrix_H__
+#define __AddMatrix_H__
+
 typedef struct MNode {
 	int i,j;//行号，列号
 	int e;//非零元素
@@ -171,3 +174,5 @@ LMatrix MCreate(int d[][3],int m,int n,int k) {
 	}
 		return M;
 }
+
+#endif

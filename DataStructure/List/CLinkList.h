@@ -1,5 +1,8 @@
 // 循环链表，最后一个节点指向head
 //HEAD->NODE1->NODE2->NODE3->...->NODE->HEAD
+#ifndef __ClinkList_H__
+#define __ClinkList_H__
+
 template<class T>
 struct Node{//表节点含有数据域和指向下 一个节点的指针
 	T data;
@@ -23,6 +26,7 @@ public:
 	int Length();//测标的长度
 	void ListDisplay();//输出表中的元素
 };
+#endif
 template<class T>
 CLinkList<T>::CLinkList(){
 	Head=new Node<T>;//头指针为引导指针，不计算在链表数中

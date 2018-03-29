@@ -1,3 +1,6 @@
+#ifndef __LinkStack_H__
+#define __LinkStack_H__
+
 //LinkStack no length property
 template <class T>
 struct Node{
@@ -19,6 +22,8 @@ public:
 	void ClearStack();
 	void SatckTanverse();
 };
+#endif
+
 template <class T>
 LinkStack<T>::LinkStack() {
 	top = NULL;

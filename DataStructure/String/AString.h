@@ -1,3 +1,6 @@
+#ifndef __AString_H__
+#define __AString_H__
+
 const int defaultSize=128;
 class AString {
 private:
@@ -42,6 +45,7 @@ public:
 	void Clear();
 	void Output();
 };
+#endif
 
 void AString::CheckMem() {
 	if(ch==NULL){

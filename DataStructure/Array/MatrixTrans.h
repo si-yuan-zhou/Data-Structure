@@ -4,6 +4,9 @@
 	创建一个SMatrix含有矩阵的行列及非零元个数及指向数据的指针
 	数据区含有由MNode节点组成的数组，每个节点含有数据的位置和值
 */
+#ifndef __MatrixTran_H__
+#define __MatrixTran_H__
+
 typedef struct{
 	int i,j;//行号和列号
 	int e;//非零元
@@ -87,3 +90,5 @@ void MatrixTrans(SMatrix A,SMatrix& B) {
 	delete[] num;
 	delete[] cpot;
 }
+
+#endif

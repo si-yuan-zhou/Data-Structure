@@ -1,6 +1,9 @@
 //广义表即为LS=(a,b,...,(c,d))
 //LS非空时，第一个元素的表头(Head)，其余元素组成的表是表尾(Tail)
 //此模板中有功能相同的函数是因为有一个要递归调用
+#ifndef __BroadList_H__
+#define __BroadList_H__
+
 template <class T>
 struct GLNode {
 	int tag;//标志区域，区分原子节点和表节点
@@ -34,7 +37,7 @@ private:
 	//void SetInfo();//初始化广义表的信息
 	void Prt(GLNode<T> *ls);//将ls所指的广义表显示出来
 };
-
+#endif
 template<class T>
 GLists<T>::GLists(string st){
 	ls = Crtlists(st);

@@ -1,3 +1,6 @@
+#ifndef __SLinkList_H__
+#define __SLinkList_H__
+
 //静态链表；通过整型指数器表示各与元素的逻辑关系
 //每一个节点的cur是其下一个节点在该数组中的实际序号
 template<class T>
@@ -34,6 +37,8 @@ public:
 	void Clear();//清空表
 	void ListDisplay();//输出表中的元素	
 };
+#endif
+
 template <class T>
 SLinkList<T>::SLinkList(int maxsz):maxlen(maxsz ) {//初始化列表初始化成员变量
 	//将分配的空间连成一个备用链表，表头由av指向，链尾由-1表示
