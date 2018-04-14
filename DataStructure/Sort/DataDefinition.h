@@ -89,13 +89,13 @@ typedef int ArrType[RADIX];
 ArrType f,e;
 
 template <class T>
-struct SLCell{
-	T *keys;
+struct SLCell{//SLCell is a number
+	T *keys;//一个数的各个位
 	int next;
 };
 template <class T>
 struct SLList{
-	SLCell<T> *SList;
+	SLCell<T> *SList;//将输入数依次连接起来
 	int keynum;
 	int recnum;
 };
@@ -103,7 +103,7 @@ template <class T>
 void OutPut(SLList<T> &SL){
 	for(int i = SL.SList[0].next;i;i=SL.SList[i].next){
 		for(int j = 1;j <= SL.keynum;j++){
-			cout <<SL.SList[i].keys[j];
+			cout <<SL.SList[i].keys[j];//输出数字的每一位
 		}//endfor
 		cout<<"\t";
 	}//endfor

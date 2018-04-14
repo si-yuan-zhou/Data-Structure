@@ -132,45 +132,93 @@ using namespace std;
 //	}//endwhile
 //	cout<<endl;
 //}
-int Partition(int L[],int low,int high){
-	/*
-	 交换顺序表L中的子[low][high]中的记录，枢轴记录到位，并返回其所在位置，
-	 此时在它之前（后）的记录均不大（小）于它
-	 */
-	int  pivo;//枢轴
-	L[0] = L[low];	//用子表的第一个记录作枢轴记录
-	pivo = L[low];
+//int Partition(int L[],int low,int high){
+//	/*
+//	 交换顺序表L中的子[low][high]中的记录，枢轴记录到位，并返回其所在位置，
+//	 此时在它之前（后）的记录均不大（小）于它
+//	 */
+//	int  pivo;//枢轴
+//	L[0] = L[low];	//用子表的第一个记录作枢轴记录
+//	pivo = L[low];
+//
+//	while(low < high){		//从表的两端交替向中间扫描
+//
+//		while(low < high && L[high] >= pivo){
+//			--high;
+//		}//endwhile
+//		L[low] = L[high];//将比枢轴小的移动至低端此元素参与小于枢轴的比较
+//
+//		while(low < high && L[low] <= pivo){
+//			++low;
+//		}//endwhile
+//		L[high] = L[low];//将比枢轴大的记录移至高端
+//
+//	}//endwhile
+//	L[low] = L[0];	//枢轴记录到位
+//	return low;				//返回枢轴位置
+//}
+//void QSort(int L[],int low,int high){
+//	int mid;//接受枢轴位置
+//	if(low < high) {//if low equals high which means all elements had been traversed
+//		mid = Partition(L,low,high);
+//		QSort(L,low,mid-1);		//对低子表排序
+//		QSort(L,mid+1,high);	//对高子表排序
+//	}//endif
+//}
 
-	while(low < high){		//从表的两端交替向中间扫描
-
-		while(low < high && L[high] >= pivo){
-			--high;
-		}//endwhile
-		L[low] = L[high];//将比枢轴小的移动至低端此元素参与小于枢轴的比较
-
-		while(low < high && L[low] <= pivo){
-			++low;
-		}//endwhile
-		L[high] = L[low];//将比枢轴大的记录移至高端
-
-	}//endwhile
-	L[low] = L[0];	//枢轴记录到位
-	return low;				//返回枢轴位置
+//归并排序
+void Merge(int SR[],int TR[],int i,int m,int n){
+	//将有序的SR[i...m]和SR[m+1...n]归并为有序的TR[i...n]
+	int j,k;
+	for(j=m+1,k=i;i <= m && j<=n;++k){
+		//将SR中的记录由大到小并入TR
+		if (SR[i] <= SR[j]) {
+			TR[k] = SR[i++];
+		} else {
+			TR[k] = SR[j++];
+		}
+	}//endfor
+	//SR[i...m] and SR[m+1...n] maybe have not the same length, 
+	//so add the rest at TR's tail
+	if (i <= m) {
+		for(int a = i;a <= m; ++a){
+			TR[k++] = SR[a];
+		}//endfor
+	} else if(j <= n){
+		for(int b = j;b <= n; ++b){
+			TR[k++] = SR[b];
+		}//endfor
+	}
 }
-void QSort(int L[],int low,int high){
-	int mid;//接受枢轴位置
-	if(low < high) {//if low equals high which means all elements had been traversed
-		mid = Partition(L,low,high);
-		QSort(L,low,mid-1);		//对低子表排序
-		QSort(L,mid+1,high);	//对高子表排序
-	}//endif
+
+void MSort(int SR[],int TR1[],int s,int t){
+	int TR2[100];
+	int m;
+	//将SR[s...t]归并排序为TR[s...t]
+	if (s == t) {
+		//将数组元素分割成单个元素，然后递归回退再排序上一步分割的两部分
+		//递归过程是先分割(递)和合并(归)，排序左边的部分，然后是右边的，
+		//部分有序，且有序　部分不断变长
+		TR1[s] = SR[s];
+	} else {
+		m = (s+t)/2;			//将SR[s...t]平分为SR[s..m]和SR[m+1...t]
+		MSort(SR,TR2,s,m);		//归并地将SR[s..m]归并为有序的TR2[s...m]
+		MSort(SR,TR2,m+1,t);	//归并地将SR[m+1..t]归并为TR2[m+1..m]
+		Merge(TR2,TR1,s,m,t);	//将TR2[s..m]和TR2[m+1..t]归并到TR1[s...t]
+	}
 }
+
+void MergeSort(int L[]){
+	MSort(L,L,1,9);
+}
+
 int main(int argc, char* argv[]){
 	int a[10] = {0,4,7,3,9,12,10,6,2,5};
 	//InsertSort(a);
 	//BInsertSort(a);
 	//StaListInsertSort<int>();
-	QSort(a,1,9);
+	//QSort(a,1,9);
+	MergeSort(a);
 
 	//int a2[11] = {0,4,7,3,9,12,10,6,2,5,1};
 	//int d[5]={5,4,3,2,1};
