@@ -1,14 +1,14 @@
 #include <iostream>
 using namespace std;
 
-#include "ChangeSort.h"
+#include "ExchangeSort.h"
 #include "InsertSort.h"
 #include "MergeSort.h"
 #include "RadixSort.h"
 #include "SelectSort.h"
 int main(int argc, char* argv[]){
 	int file,choice1,choice2,choice3,choice4,choice5;
-	SqList<T> sl;
+	SqList<int> sl;
 
 	cout<<"**Menu**"<<endl;
 	cout<<"0退出程序"<<endl;
@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
 					<<"4希尔排序　　"<<endl;
 				cout<<"请选择插入排序方法:";
 				cin >>choice1;
-				while(choice != 0){
+				while(choice1 != 0){
 					switch(choice1){
 						case 1://直接插入排序
 							CreateSqList(sl);
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 							OutPut(sl);
 							break;
 						case 3://表插入排序
-							StaListInsertSort();
+							StaListInsertSort<int>();
 							break;
 						case 4://希尔排序
 							int *p,n;
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]){
 				cout<<"**快速排序**"<<endl
 					<<"0退出"<<endl
 					<<"1冒泡排序"<<endl
-					<<"2快速排序"<<endl
+					<<"2快速排序"<<endl;
 				cout<<"请选择快速排序方式:";
 				cin>>choice2;
 				while(choice2 != 0){
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]){
 					cout<<"**快速排序**"<<endl
 						<<"0退出"<<endl
 						<<"1冒泡排序"<<endl
-						<<"2快速排序"<<endl
+						<<"2快速排序"<<endl;
 					cout<<"请选择快速排序方式:";
 					cin>>choice2;
 				}//endwhile
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]){
 					<<"0退出"<<endl
 					<<"1简单选择排序"<<endl
 					<<"2树形选择排序"<<endl
-					<<"3堆排序"<<endl
+					<<"3堆排序"<<endl;
 				cout<<"请选择选择排序方式:";
 				cin>>choice3;
 				while(choice3 != 0){
@@ -149,7 +149,7 @@ int main(int argc, char* argv[]){
 					<<"0退出"<<endl
 					<<"1简单选择排序"<<endl
 					<<"2树形选择排序"<<endl
-					<<"3堆排序"<<endl
+					<<"3堆排序"<<endl;
 				cout<<"请选择选择排序方式:";
 				cin>>choice3;
 				}//endwhile
@@ -157,8 +157,8 @@ int main(int argc, char* argv[]){
 			case 4:
 				cout<<"**归并排序**"<<endl
 					<<"0退出"<<endl
-					<<"1归并排序"<<endl
-				cout<<"请选择快速排序方式:";
+					<<"1归并排序"<<endl;
+				cout<<"请选择操作方式:";
 				cin>>choice4;
 				while(choice4 != 0){
 					switch(choice4){
@@ -172,15 +172,15 @@ int main(int argc, char* argv[]){
 					}//endswitch
 				cout<<"**归并排序**"<<endl
 					<<"0退出"<<endl
-					<<"1归并排序"<<endl
-				cout<<"请选择归并排序方式:";
+					<<"1归并排序"<<endl;
+				cout<<"请选择操作方式:";
 				cin>>choice4;
 				}//endwhile
 				break;
 			case 5:
 				cout<<"**基数排序**"<<endl
 					<<"0退出"<<endl
-					<<"1链式基数排序"<<endl
+					<<"1链式基数排序"<<endl;
 				cout<<"请选择基数排序方式:";
 				cin>>choice5;
 				while(choice5 != 0){
@@ -196,7 +196,7 @@ int main(int argc, char* argv[]){
 					}//endswitch
 				cout<<"**基数排序**"<<endl
 					<<"0退出"<<endl
-					<<"1链式基数排序"<<endl
+					<<"1链式基数排序"<<endl;
 				cout<<"请选择基数排序方式:";
 				cin>>choice5;
 				}//endwhile

@@ -1,5 +1,9 @@
 #include <iostream>
 using namespace std;
+
+#include "DataDefinition.h"
+#include "SelectSort.h"
+
 //void InsertSort(int L[]){
 //	for(int i = 2;i <= 10; ++i){
 //		int j;
@@ -167,50 +171,126 @@ using namespace std;
 //}
 
 //归并排序
-void Merge(int SR[],int TR[],int i,int m,int n){
-	//将有序的SR[i...m]和SR[m+1...n]归并为有序的TR[i...n]
-	int j,k;
-	for(j=m+1,k=i;i <= m && j<=n;++k){
-		//将SR中的记录由大到小并入TR
-		if (SR[i] <= SR[j]) {
-			TR[k] = SR[i++];
-		} else {
-			TR[k] = SR[j++];
-		}
-	}//endfor
-	//SR[i...m] and SR[m+1...n] maybe have not the same length, 
-	//so add the rest at TR's tail
-	if (i <= m) {
-		for(int a = i;a <= m; ++a){
-			TR[k++] = SR[a];
-		}//endfor
-	} else if(j <= n){
-		for(int b = j;b <= n; ++b){
-			TR[k++] = SR[b];
-		}//endfor
-	}
-}
+//void Merge(int SR[],int TR[],int i,int m,int n){
+//	//将有序的SR[i...m]和SR[m+1...n]归并为有序的TR[i...n]
+//	int j,k;
+//	for(j=m+1,k=i;i <= m && j<=n;++k){
+//		//将SR中的记录由大到小并入TR
+//		if (SR[i] <= SR[j]) {
+//			TR[k] = SR[i++];
+//		} else {
+//			TR[k] = SR[j++];
+//		}
+//	}//endfor
+//	//SR[i...m] and SR[m+1...n] maybe have not the same length, 
+//	//so add the rest at TR's tail
+//	if (i <= m) {
+//		for(int a = i;a <= m; ++a){
+//			TR[k++] = SR[a];
+//		}//endfor
+//	} else if(j <= n){
+//		for(int b = j;b <= n; ++b){
+//			TR[k++] = SR[b];
+//		}//endfor
+//	}
+//}
+//
+//void MSort(int SR[],int TR1[],int s,int t){
+//	int TR2[100];
+//	int m;
+//	//将SR[s...t]归并排序为TR[s...t]
+//	if (s == t) {
+//		//将数组元素分割成单个元素，然后递归回退再排序上一步分割的两部分
+//		//递归过程是先分割(递)和合并(归)，排序左边的部分，然后是右边的，
+//		//部分有序，且有序　部分不断变长
+//		TR1[s] = SR[s];
+//	} else {
+//		m = (s+t)/2;			//将SR[s...t]平分为SR[s..m]和SR[m+1...t]
+//		MSort(SR,TR2,s,m);		//归并地将SR[s..m]归并为有序的TR2[s...m]
+//		MSort(SR,TR2,m+1,t);	//归并地将SR[m+1..t]归并为TR2[m+1..m]
+//		Merge(TR2,TR1,s,m,t);	//将TR2[s..m]和TR2[m+1..t]归并到TR1[s...t]
+//	}
+//}
+//
+//void MergeSort(int L[]){
+//	MSort(L,L,1,9);
+//}
 
-void MSort(int SR[],int TR1[],int s,int t){
-	int TR2[100];
-	int m;
-	//将SR[s...t]归并排序为TR[s...t]
-	if (s == t) {
-		//将数组元素分割成单个元素，然后递归回退再排序上一步分割的两部分
-		//递归过程是先分割(递)和合并(归)，排序左边的部分，然后是右边的，
-		//部分有序，且有序　部分不断变长
-		TR1[s] = SR[s];
-	} else {
-		m = (s+t)/2;			//将SR[s...t]平分为SR[s..m]和SR[m+1...t]
-		MSort(SR,TR2,s,m);		//归并地将SR[s..m]归并为有序的TR2[s...m]
-		MSort(SR,TR2,m+1,t);	//归并地将SR[m+1..t]归并为TR2[m+1..m]
-		Merge(TR2,TR1,s,m,t);	//将TR2[s..m]和TR2[m+1..t]归并到TR1[s...t]
-	}
-}
+//int SelectMinKey(int L[],int n){
+//	//选择最小数，从n开始
+//	int min = n;
+//	int mi;
+//	mi = L[n];
+//	for(int i = n+1;i <= 9; ++i){
+//		if(L[i] < mi) {
+//			mi = L[i];	//get minimum value
+//			min = i;			//get minimum position
+//		}//endif
+//	}//endfor
+//	return min;
+//}
+//
+//void SelectSort(int L[]){
+//	int j;
+//	int t;
+//	for(int i = 1;i <= 9; ++i){
+//		j = SelectMinKey(L,i);
+//		//在L[i]~L[9]中选择最小的记录并将其地址赋值给j
+//		if(i != j) {
+//			t = L[i];
+//			L[i] = L[j];
+//			L[j] = t;
+//		}//endif
+//	}//endfor
+//}
 
-void MergeSort(int L[]){
-	MSort(L,L,1,9);
-}
+
+//void HeapAdjust(int L[],int s,int m){
+//	//对顺序表做查找，从值最大的孩子结点向下筛选，找到最大值
+//	//每次只对一个元素rc进行操作，使其所在子树满足堆的定义
+//	//把s到m的元素进行调整
+//
+//	int rc = L[s];
+//	for(int j = 2*s;j <= m;j *= 2){
+//		//2*s是L[s]的左子结点，每次乘2就找到左孩子的左孩子
+//
+//		//找到s结点的最大的子结点
+//		if(j < m && L[j] <= L[j+1]) {
+//			//j<m是判断的元素在所有元素内，因为只有m个元素
+//			//L[j] <= L[j+1]是找到子节点中最大的	
+//			j++;
+//		}//endif
+//
+//		//L[j]是rc子结点中最大的
+//		if(rc > L[j]) break;//如果rc最大则退出while
+//
+//		L[s] = L[j];	//子节点比父节点大，将子节点放在父节点的位置
+//		s = j;					//s是rc目前的位置
+//	}//endfor
+//	L[s] = rc;				//把rc放在正确的位置
+//}
+//
+//void HeapSort(int L[]){
+//	//对顺序表L进行堆排序
+//	int value;
+//
+//	//初始化堆，将待排序序列构造成堆
+//	for(int i = 9/2;i > 0;i--){
+//		//调整所有非叶子节点
+//		//9/2是初始堆的最后一个非叶子结点
+//		HeapAdjust(L,i,9);
+//	}//endfor
+//
+//	for(i = 9;i > 1; --i){
+//		//数列中最后一个元素与第一个元素交换
+//		value = L[1];
+//		L[1] = L[i];
+//		L[i] = value;
+//
+//		//待排序序列数量减一，有序的数在原始数列尾部
+//		HeapAdjust(L,1,i-1);//将L[1...i-1]重新调整为大顶堆
+//	}//endfor
+//}
 
 int main(int argc, char* argv[]){
 	int a[10] = {0,4,7,3,9,12,10,6,2,5};
@@ -218,14 +298,20 @@ int main(int argc, char* argv[]){
 	//BInsertSort(a);
 	//StaListInsertSort<int>();
 	//QSort(a,1,9);
-	MergeSort(a);
-
+	//MergeSort(a);
+	//SelectSort(a);
+	//HeapSort(a);
+	cout<<"Tree Sort"<<endl;
+	TreeSort<int>(a,10);
+	cout<<"Result"<<endl;
+	OutPut<int>(a,10);
+	
 	//int a2[11] = {0,4,7,3,9,12,10,6,2,5,1};
 	//int d[5]={5,4,3,2,1};
 	//ShellSort(a2,d,5);
 	
-	for(int i = 1;i <= 9; ++i){
-		cout <<a[i]<<" ";
-	}//endfor
+	//for(int i = 1;i <= 9; ++i){
+	//	cout <<a[i]<<" ";
+	//}//endfor
 	return 0;
 }
