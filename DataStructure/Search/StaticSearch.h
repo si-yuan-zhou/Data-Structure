@@ -63,8 +63,8 @@ int StaticSearch<T>::endSearch(T key){
 	return -1;
 }
 template <class T>
-void StaticSearch<T>:: AscendSort(){
-	//Sort the chart, all elements have been stored in array
+void StaticSearch<T>::AscendSort(){
+	//Sort the table, all elements have been stored in array
 	T t;
 	for(int i = 0;i < len-1; ++i){
 		for(int j = 0;j < len-i-1; ++j){

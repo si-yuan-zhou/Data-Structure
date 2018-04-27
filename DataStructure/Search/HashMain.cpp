@@ -17,11 +17,15 @@ int main(int argc, char* argv[]){
 		cin >>m;
 		switch(m){
 			case 1:
-				cout<<"Please input Integer whose size is bigger than 5"<<endl;
+				cout<<"Please input the length of HashTable: ";
 				cin>>m;
 				a.InitHashTable(m);
-				cout<<"Input datas successively, -1 ends"<<endl;
-				a.Insert(e);
+				cout<<"Input datas successively"<<endl;
+				while(m != 0){
+					a.Input(e);
+					a.Insert(e);
+					m--;
+				}//endwhile
 				break;
 			case 2:
 				cout<<"Input a element: ";

@@ -10,9 +10,9 @@ struct ElemType{
 template <class T>
 class HashSearch{
 	private:
-		ElemType<T> *HT;	//stable address hashChart
-		int count;			//the count of element
+		ElemType<T> *HT;	//table address hashTable
 		int size;
+		int count;			//the count of insert element
 	public:
 		HashSearch();
 		~HashSearch();
@@ -22,6 +22,7 @@ class HashSearch{
 		int Search(T key,int &s);	//hash search
 		int Insert(ElemType<T> e);
 		void Display();
+		void Input(ElemType<T>& e);
 };
 #endif
 
@@ -38,28 +39,27 @@ HashSearch<T>::~HashSearch(){
 }
 template <class T>
 void HashSearch<T>::InitHashTable(int n){
-	cout<<"Please input default value of the same type to initialize keyword ";
-	T def;
-	cin >>def;
 	size = n;
 	HT = new ElemType<T>[size];
-	for(int i = 0;i < size; ++i){
-		HT[i].key = def;//key's type is T??????
+	for(int i = 0;i <= size; ++i){
+		HT[i].key = -1;
 	}//endfor
 }
 template <class T>
 int HashSearch<T>::Hash(T key){
-	int p = 5;
+	int p = size / 3;
 	return key % p;
 }
 template <class T>
 void HashSearch<T>::Collision(int &s){
+	//如果出现冲突，就查找下一个
 	s++;
 }
 template <class T>
 int HashSearch<T>::Search(T key,int &s){
 	s = Hash(key);
 	while((HT[s].key != -1) && (key != HT[s].key)){
+		//HT[s].key ==-1代表找到最后一个
 		Collision(s);
 	}//endwhile
 	if (HT[s].key == key) {
@@ -69,7 +69,12 @@ int HashSearch<T>::Search(T key,int &s){
 	}
 }
 template <class T>
-int HashSearch<T>::Insert(ElemType<T> e){//there is a bug
+void HashSearch<T>::Input(ElemType<T>& e){
+	cin >> e.key;
+}
+
+template <class T>
+int HashSearch<T>::Insert(ElemType<T> e){
 	int s;
 	if (count == size) {
 		cout<<"Table is full"<<endl;
@@ -78,7 +83,7 @@ int HashSearch<T>::Insert(ElemType<T> e){//there is a bug
 		s = Hash(e.key);
 		int f = Search(e.key,s);
 		if (f) {
-			cout<<"elements exist!"<<endl;
+			cout<<"element has exist!"<<endl;
 			return -1;
 		} else {
 			HT[s].key = e.key;
@@ -90,12 +95,12 @@ int HashSearch<T>::Insert(ElemType<T> e){//there is a bug
 template <class T>
 void HashSearch<T>::Display(){
 	for(int i = 0;i < size; ++i){
-		cout<<i<<'\t';
+		cout<<i<<'\t'<<"-->"<<'\t';
 		if (HT[i].key != -1) {
 			cout<<HT[i].key;
 		} else {
 			cout<<'\t';
 		}
+		cout <<endl;
 	}//endfor
-	cout <<endl;
 }
