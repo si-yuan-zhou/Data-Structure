@@ -1,7 +1,7 @@
 #ifndef __ADJTABLEGRAPH__
 #define __ADJTABLEGRAPH__
 
-#include "../Queue/LinkQueue.h"
+#include "../../Queue/LinkQueue.h"
 #define MAX_VERTEX_NUM 20
 struct ArcNode{
 	int adjvex;					//position of the vertex pointed by the arc

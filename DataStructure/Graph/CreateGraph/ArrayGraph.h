@@ -3,7 +3,7 @@
 
 #include <cstring>
 #include <iomanip>
-#include "../Queue/LinkQueue.h"
+#include "../../Queue/LinkQueue.h"
 
 #define MAX_VERTEX_NUM 20	//count of vertex(顶点)
 const int infinity = 100;
