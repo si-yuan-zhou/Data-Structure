@@ -1,8 +1,17 @@
-#ifndef __ADJTABLEGRAPH__
-#define __ADJTABLEGRAPH__
+#ifndef __ADJDFSFOREST__
+#define __ADJDFSFOREST__
 
-#include "../../Queue/LinkQueue.h"
+#include "../../../Queue/LinkQueue.h"
+
 #define MAX_VERTEX_NUM 20
+
+template <class T>
+struct CSTree{//树的二叉链表存储
+	T data;
+	CSTree *firstchild;
+	CSTree *nextsibling;
+};
+
 struct ArcNode{
 	int adjvex;					//position of the vertex pointed by the arc
 	struct ArcNode *nextarc;	//point to next arc
@@ -44,9 +53,20 @@ class ATGraph{
 		bool DFSTraverse(bool (*visit)(T v)); //Depth-first
 		bool BFSTraverse(bool (*visit)(T v)); //Breath-first
 		void Display();
+
+		//for connectness
+		void DFSTree(int index,CSTree<T> *&t);//从第index个结点出发深度优先遍历图，建立根为t的生成树
+		void DFSForest(CSTree<T> *&t);//建立无向图的深度优先生成森林的孩子兄弟链表
+		void PreOrderTraverse(CSTree<T> *&t,bool (*visit)(T v));//先根遍历链表结构的树t
+		void BTreetoForest(CSTree<T> *&t);//二叉树(左分支是孩子，右分支是兄弟),转化为森林
 };
 #endif
 
+template <class T>
+bool visit(T v){
+	cout << v << " ";
+	return true;
+}
 template <class T>
 int ATGraph<T>::LocateVertex(T u){
 	//return the position of u
@@ -408,4 +428,94 @@ void ATGraph<T>::Display(){
 			p = p->nextarc;
 		}
 	}//endfor
+}
+template <class T>
+void ATGraph<T>::DFSTree(int index,CSTree<T> *&t){
+//从第index个结点出发，深度优先遍历图，建立根为t的生成树
+	CSTree<T> *p,*q;
+	T v1;
+	int w;
+	visited[index] = true;
+	bool firsttag = true;
+	v1 = GetVertex(index);
+	for(w = FirstAdjVertex(v1); w >= 0; w = NextAdjVertex(v1,GetVertex(w))){
+		//w依次为v的邻接顶点
+		if(visited[w] == false){
+			p = new CSTree<T>;
+			p->data = GetVertex(w);
+			p->firstchild = NULL;
+			p->nextsibling = NULL;
+			if(firsttag){
+				//w是v的第一个未被访问的邻接顶点，作为根的左孩子结点
+				t->firstchild = p;
+				firsttag = false;
+			} else {
+				//w是v的其他未被访问的邻接结点，作为上一邻接定点的右兄弟
+				q->nextsibling = p;
+			}
+			q = p;
+			//从第w个顶点出发深度优先遍历图G,建立生成子树*q
+			DFSTree(w,q);
+		}
+	}
+}
+template <class T>
+void ATGraph<T>::DFSForest(CSTree<T>* &t){
+	//建立无向图的深度优先生成森林的孩子兄弟链表
+	CSTree<T> *p,*q;
+	t = NULL;
+	for(int index = 0;index <= atgraph.vexNum;++index){
+		visited[index] = false;
+	}
+	for(int index = 0;index <= atgraph.vexNum;++index){
+		if(visited[index] == false){
+			//第index个顶点不曾被访问
+			//建立以第index个顶点为根的生成树
+			p = new CSTree<T>;
+			p->data = GetVertex(index);
+			p->firstchild = NULL;
+			p->nextsibling = NULL;
+			if (!t) {
+				t = p;//t是第一棵生成树
+			} else {
+				//前一棵的根的兄弟是其他生成树的根
+				q->nextsibling = p;
+			}
+			q = p;//q指示当前生成树的根
+			DFSTree(index,p);//建立以p为根的生成树
+		}
+	}
+}
+template <class T>
+void ATGraph<T>::PreOrderTraverse(CSTree<T>* &t,bool (*visit)(T v)){
+	//先根遍历二叉链表结构的树t
+	if(t){
+		visit(t->data);
+		PreOrderTraverse(t->firstchild,visit);
+		PreOrderTraverse(t->nextsibling,visit);
+	}
+}
+template <class T>
+void ATGraph<T>::BTreetoForest(CSTree<T>* &t){
+	//二叉树(左分支是孩子，右分支是兄弟)转换为森林
+	CSTree<T> *q;
+	int j = 0;
+	while(t){
+		q = t;
+		t = t->nextsibling;
+		if(t){
+			j++;
+			q->nextsibling = NULL;
+		} else {
+			if(j > 0)
+				j++;
+		}
+		if (j == 0) {
+			cout << "先序遍历生成树为: "<<endl;
+		} else {
+			cout << "先序遍历生成森林第"<<j<<"棵树为："<<endl;
+		}
+		PreOrderTraverse(q,visit);
+		cout << endl;
+	}//endwhile
 }
